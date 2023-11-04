@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        button {
+            padding: 5px;
+            background-color: #0000ff;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+
+        input {
+            padding: 2px;
+            font-size: larger;
+        }
+
+
+        .bmi {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .bmiflex {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            max-width: 80%;
+            /* justify-content: space-around; */
+            justify-content: space-between;
+            margin-bottom: 100px;
+        }
+
+
+        .inputer {
+            padding: 10px;
+            padding-left: 0px;
+        }
+
+
+        .ref {
+            padding: 10px;
+            padding-left: 100px;
+            margin-left: 40px;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        tr {
+            padding-right: 30px;
+            padding-left: 30px;
+            margin: auto;
+            width: 95%;
+
+        }
+
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            padding-right: 20px;
+            padding-left: 30px;
+            margin-bottom: 7.5px;
+            text-align: center;
+        }
+
+
+        th {
+            background-color: #f2f2f2;
+            padding-right: 110px;
+            padding-left: 100px;
+            padding-top: 7.5px;
+            padding-bottom: 7.5px;
+            width: 95%;
+            text-align: center;
+        }
+
+
+        p {
+            font-weight: bold;
+            font-size: 19px;
+            color: #7fff00;
+        }
+
+
+        /* Media responsiveness */
+        @media (max-width: 768px) {
+
+            .bmi {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .bmiflex {
+                flex-direction: column;
+                width: 100%;
+                max-width: none;
+                margin: auto;
+                align-items: center;
+            }
+
+            .inputer {
+                padding: 0px 10px;
+                justify-content: center;
+            }
+
+            .ref {
+                padding: 0px 10px;
+                margin-left: 0px;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            th,
+            td {
+                padding: 5px;
+                padding-right: 10px;
+                padding-left: 10px;
+                font-size: smaller;
+            }
+
+            th {
+                padding-right: 50px;
+                padding-left: 50px;
+            }
+
+            button{
+                padding: 1.5px;
+                font-weight: lighter;
+                margin-left: 100px;
+            }
+
+            p{
+                color: #7fff00;
+                text-align: center;
+            }
+
+            h3{
+                text-align: center;
+            }
+
+            input{
+                padding: 1px;
+                font-size: medium;
+            }
+
+            h1{
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+   
+
+    <div class="bmi">
+        <h1>Manuel's BMI Calculator</h1>
+
+        <div class="bmiflex">
+
+            <div class="inputer">
+                <h3>Check Your Body Mass Index</h3>
+
+                <label for="weight" >Weight (kg): </label>
+                <input type="number" id="weight" placeholder="Enter kg"><br><br>
+
+                <label for="feet">Height(Feet): </label>
+                <input type="number" id="feet" placeholder="Enter feet"><br><br>
+
+                <label for="inches">Height(Inches): </label>
+                <input type="number" id="inches" placeholder="Enter inches"><br><br>
+
+                <button onclick="calculateBMI()">Calculate BMI</button>
+
+                <h3>Result:</h3>
+                <p id="result"></p>
+
+            </div>
+
+            <div class="ref">
+
+                <h3 style="text-align: center;">Body Mass Index Categories</h3>
+                <table>
+                    <tr>
+                        <th>BMI</th>
+                        <th>Weight status</th>
+                    </tr>
+                    <tr>
+                        <td>Below 18.5</td>
+                        <td>Underweight</td>
+                    </tr>
+                    <tr>
+                        <td>18.5 — 24.9</td>
+                        <td>Healty weight</td>
+                    </tr>
+                    <tr>
+                        <td>25.0 — 29.9</td>
+                        <td>Overweight</td>
+                    </tr>
+                    <tr>
+                        <td>30.0 and Above</td>
+                        <td>Obesity</td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function inchesToMeters(inches) {
+            const meters = inches * 0.0254;
+            return meters;
+        }
+
+
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) {
+                return "Underweight";
+            } else if (bmi >= 18.50 && bmi < 24.99) {
+                return "Healthy Weight";
+            } else if (bmi >= 24.99 && bmi < 29.99) {
+                return "Overweight";
+            } else {
+                return "Obese";
+            }
+        }
+
+
+
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const feet = parseFloat(document.getElementById('feet').value) || 0;
+            const inches = parseFloat(document.getElementById('inches').value) || 0;
+
+            const totalInches = feet * 12 + inches;
+
+            // convert totalinches to meter
+            const heightInMeters = inchesToMeters(totalInches);
+
+            if (isNaN(weight) || isNaN(totalInches) || weight <= 0 || totalInches <= 0 || inches >= 12) {
+                document.getElementById('result').textContent = "Invalid input. Please enter valid values.";
+            } else {
+                var bmi = weight / (heightInMeters ** 2);
+                bmiCategory = getBMICategory(bmi);  // Assign value to bmiCategory
+            }
+
+            document.getElementById('result').textContent = "Your BMI is: " + bmi.toFixed(2) + " (" + bmiCategory + ")";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
+<!--Body Mass Index(BMI) =  Weight in Kg / (Height) in Meters -->
+
+<!-- 
+BMI	               Weight Status
+Below 18.5	       Underweight
+18.5—24.9	       Healthy Weight
+25.0—29.9	       Overweight
+30.0 and Above	   Obesity 
+-->
